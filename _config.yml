@@ -4,6 +4,8 @@ permalink: /blog/:year/:month/:day/:title
 plugins:
   - jekyll-gist
   - jekyll-sitemap
+  - jekyll-twitter-plugin
 show_downloads: true
 google_analytics: UA-136973994-1
 theme: jekyll-theme-architect
+repository: nahtan/nahtan.github.io

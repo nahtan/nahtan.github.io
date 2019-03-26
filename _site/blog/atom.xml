@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+	<title>Nathan's Blog</title>
+	<link href="http://nahtan.github.io/blog/atom.xml" rel="self"/>
+	<link href="http://nahtan.github.io/blog"/>
+	<updated>2019-03-26T15:30:24+01:00</updated>
+	<id>http://nahtan.github.io/blog</id>
+	<author>
+		<name>Nathan Lemonnier</name>
+		<email>nathanael.lemonnier@gmail.com</email>
+	</author>
+
+	
+		<entry>
+			<title>Every thing has a start</title>
+			<link href="http://nahtan.github.io/blog/2019/03/25/nathan-site-birth"/>
+			<updated>2019-03-25T00:00:00+01:00</updated>
+			<id>http://nahtan.github.io/blog/2019/03/25/nathan-site-birth</id>
+			<content type="html">&lt;p&gt;Data science starts with website science - powered by &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt;&lt;/p&gt;
+</content>
+		</entry>
+	
+
+</feed>
