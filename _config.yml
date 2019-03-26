@@ -2,6 +2,7 @@ name: Nathan Lemonnier
 markdown: kramdown
 permalink: /blog/:year/:month/:day/:title
 plugins:
+  - jekyll-gist
   - jekyll-sitemap
 show_downloads: true
 google_analytics: UA-136973994-1
