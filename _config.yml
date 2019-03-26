@@ -3,4 +3,6 @@ markdown: kramdown
 permalink: /blog/:year/:month/:day/:title
 plugins:
   - jekyll-sitemap
+show_downloads: true
+google_analytics: UA-136973994-1
 theme: jekyll-theme-architect
