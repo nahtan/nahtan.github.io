@@ -4,7 +4,7 @@
 	<title>Nathan's Blog</title>
 	<link href="http://nahtan.github.io/blog/atom.xml" rel="self"/>
 	<link href="http://nahtan.github.io/blog"/>
-	<updated>2019-04-10T12:00:43+02:00</updated>
+	<updated>2019-04-11T00:49:47+02:00</updated>
 	<id>http://nahtan.github.io/blog</id>
 	<author>
 		<name>Nathan Lemonnier</name>
@@ -13,16 +13,230 @@
 
 	
 		<entry>
-			<title>make9mer</title>
+			<title>make9mer – Generate 9-mer from protein sequence</title>
 			<link href="http://nahtan.github.io/blog/2019/04/10/make9mer"/>
 			<updated>2019-04-10T00:00:00+02:00</updated>
 			<id>http://nahtan.github.io/blog/2019/04/10/make9mer</id>
-			<content type="html">&lt;p&gt;
-Generate 9-mer from protein sequence.
-&lt;/p&gt;
+			<content type="html">&lt;hr /&gt;
+
+&lt;p&gt;&lt;b&gt;&lt;a href=&quot;#rationale&quot;&gt;Rationale&lt;/a&gt;&lt;/b&gt;&lt;br /&gt;
+&lt;b&gt;&lt;a href=&quot;#approach&quot;&gt;Approach&lt;/a&gt;&lt;/b&gt;&lt;br /&gt;
+&lt;b&gt;&lt;a href=&quot;#applic&quot;&gt;Application&lt;/a&gt;&lt;/b&gt;&lt;br /&gt;
+&lt;b&gt;&lt;a href=&quot;#applic&quot;&gt;Scripting this…&lt;/a&gt;&lt;/b&gt;&lt;br /&gt;
+&lt;b&gt;&lt;a href=&quot;#install&quot;&gt;Install this!&lt;/a&gt;&lt;/b&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;hr /&gt;
 
-&lt;p&gt;&lt;a href=&quot;/&quot;&gt;&lt;img src=&quot;/img/alien404.jpg&quot; /&gt;&lt;/a&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2&gt;&lt;a name=&quot;rationale&quot;&gt;RATIONALE&lt;/a&gt;&lt;/h2&gt;
+&lt;p align=&quot;justify&quot;&gt; Immunogenicity is the ability to trigger an immune reaction. This can be provoked by peptides, by instance a short fraction of a protein sequence. A mutation in the protein sequence is likely to affect immunogenicity.&lt;br /&gt;
+Immunogenicity score of a peptide can be measured through tools like the &lt;a href=&quot;https://www.iedb.org/&quot;&gt;Immune Epitope Data Base&lt;/a&gt;, which requires peptide with length of 9 amino acids, or 9-mers.&lt;br /&gt;
+The tools here aims at generating all the possible 9-mers, for all possible mutations occuring at each codon of a protein sequence. &lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2&gt;&lt;a name=&quot;approach&quot;&gt;APPROACH&lt;/a&gt;&lt;/h2&gt;
+&lt;h3&gt;How many 9-mers for each codon ?&lt;/h3&gt;
+
+&lt;p align=&quot;justify&quot;&gt; Let's call the first codon of the protein C1, the second C2 and so on until the last codon Cn.&lt;/p&gt;
+&lt;h4&gt;From C1 to C8 and Cn&lt;font style=&quot;font-size:10px&quot;&gt;-7&lt;/font&gt; to Cn&lt;/h4&gt;
+&lt;div style=&quot;margin-left: 30px&quot;&gt;• &lt;b&gt;C1&lt;/b&gt;&lt;/div&gt;
+&lt;div align=&quot;justify&quot;&gt; If the mutation occurs at &lt;b&gt;C1&lt;/b&gt;, it concerns &lt;u&gt;&lt;b&gt;one&lt;/b&gt;&lt;/u&gt; 9-mer:&lt;/div&gt;
+&lt;p align=&quot;center&quot;&gt;&lt;b&gt;C1&lt;/b&gt;-C2-C3-C4-C5-C6-C7-C8-C9&lt;/p&gt;
+
+&lt;div style=&quot;margin-left: 30px&quot;&gt;• &lt;b&gt;C2&lt;/b&gt;&lt;/div&gt;
+&lt;div align=&quot;justify&quot;&gt; If the mutation occurs at &lt;b&gt;C2&lt;/b&gt;, it concerns &lt;u&gt;&lt;b&gt;two&lt;/b&gt;&lt;/u&gt; 9-mers:&lt;/div&gt;
+&lt;p align=&quot;center&quot;&gt;C1-&lt;b&gt;C2&lt;/b&gt;-C3-C4-C5-C6-C7-C8-C9&lt;br /&gt;&lt;b&gt;C2&lt;/b&gt;-C3-C4-C5-C6-C7-C8-C9-C10&lt;/p&gt;
+&lt;p align=&quot;justify&quot;&gt; -&amp;gt; And so on until C8.&lt;/p&gt;
+
+&lt;div style=&quot;margin-left: 30px&quot;&gt;• &lt;b&gt;C8&lt;/b&gt;&lt;/div&gt;
+&lt;div align=&quot;justify&quot;&gt; If the mutation occurs at &lt;b&gt;C8&lt;/b&gt;, it concerns &lt;u&gt;&lt;b&gt;eight&lt;/b&gt;&lt;/u&gt; 9-mers:&lt;divp&gt;
+&lt;p align=&quot;center&quot;&gt;C1-C2-C3-C4-C5-C6-C7-&lt;b&gt;C8&lt;/b&gt;-C9&lt;br /&gt;
+				  C2-C3-C4-C5-C6-C7-&lt;b&gt;C8&lt;/b&gt;-C9-C10&lt;br /&gt;
+				  C3-C4-C5-C6-C7-&lt;b&gt;C8&lt;/b&gt;-C9-C10-C11&lt;br /&gt;
+				  C4-C5-C6-C7-&lt;b&gt;C8&lt;/b&gt;-C9-C10-C11-C12&lt;br /&gt;
+				  C5-C6-C7-&lt;b&gt;C8&lt;/b&gt;-C9-C10-C11-C12-C13&lt;br /&gt;
+				  C6-C7-&lt;b&gt;C8&lt;/b&gt;-C9-C10-C11-C12-C13-C14&lt;br /&gt;
+				  C7-&lt;b&gt;C8&lt;/b&gt;-C9-C10-C11-C12-C13-C14-C15&lt;br /&gt;
+				  &lt;b&gt;C8&lt;/b&gt;-C9-C10-C11-C12-C13-C14-C15-C16&lt;br /&gt;
+			  &lt;/p&gt;
+
+&lt;p align=&quot;justify&quot;&gt; -&amp;gt; The same goes for Cn&lt;font style=&quot;font-size:10px&quot;&gt;-7&lt;/font&gt;, Cn&lt;font style=&quot;font-size:10px&quot;&gt;-6&lt;/font&gt;, and so on until Cn.&lt;/p&gt;
+&lt;div style=&quot;margin-left: 30px&quot;&gt;• &lt;b&gt;Cn&lt;/b&gt;&lt;/div&gt;
+&lt;div align=&quot;justify&quot;&gt; If the mutation occurs at &lt;b&gt;Cn&lt;/b&gt;, it concerns &lt;u&gt;&lt;b&gt;one&lt;/b&gt;&lt;/u&gt; 9-mer:&lt;/div&gt;
+&lt;p align=&quot;center&quot;&gt;Cn&lt;font style=&quot;font-size:10px&quot;&gt;-8&lt;/font&gt;-Cn&lt;font style=&quot;font-size:10px&quot;&gt;-7&lt;/font&gt;-Cn&lt;font style=&quot;font-size:10px&quot;&gt;-6&lt;/font&gt;-Cn&lt;font style=&quot;font-size:10px&quot;&gt;-5&lt;/font&gt;-Cn&lt;font style=&quot;font-size:10px&quot;&gt;-4&lt;/font&gt;-Cn&lt;font style=&quot;font-size:10px&quot;&gt;-3&lt;/font&gt;-Cn&lt;font style=&quot;font-size:10px&quot;&gt;-2&lt;/font&gt;-Cn&lt;font style=&quot;font-size:10px&quot;&gt;-1&lt;/font&gt;-&lt;b&gt;Cn&lt;/b&gt;&lt;/p&gt;
+
+&lt;div style=&quot;margin-left: 30px&quot;&gt;• &lt;b&gt;Cn&lt;font style=&quot;font-size:10px&quot;&gt;-7&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;
+&lt;div align=&quot;justify&quot;&gt; If the mutation occurs at &lt;b&gt;Cn&lt;font style=&quot;font-size:10px&quot;&gt;-7&lt;/font&gt;&lt;/b&gt;, it concerns &lt;u&gt;&lt;b&gt;eight&lt;/b&gt;&lt;/u&gt; 9-mer:&lt;/div&gt;
+&lt;p align=&quot;center&quot;&gt;
+	
+	Cn&lt;font style=&quot;font-size:10px&quot;&gt;-8&lt;/font&gt;-
+		&lt;b&gt;Cn&lt;font style=&quot;font-size:10px&quot;&gt;-7&lt;/font&gt;&lt;/b&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-6&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-5&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-4&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-3&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-2&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-1&lt;/font&gt;-
+		Cn&lt;br /&gt;
+		
+	Cn&lt;font style=&quot;font-size:10px&quot;&gt;-9&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-8&lt;/font&gt;-
+		&lt;b&gt;Cn&lt;font style=&quot;font-size:10px&quot;&gt;-7&lt;/font&gt;&lt;/b&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-6&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-5&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-4&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-3&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-2&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-1&lt;/font&gt;&lt;br /&gt;
+				
+	Cn&lt;font style=&quot;font-size:10px&quot;&gt;-10&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-9&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-8&lt;/font&gt;-
+		&lt;b&gt;Cn&lt;font style=&quot;font-size:10px&quot;&gt;-7&lt;/font&gt;&lt;/b&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-6&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-5&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-4&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-3&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-2&lt;/font&gt;&lt;br /&gt;
+	
+	Cn&lt;font style=&quot;font-size:10px&quot;&gt;-11&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-10&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-9&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-8&lt;/font&gt;-
+		&lt;b&gt;Cn&lt;font style=&quot;font-size:10px&quot;&gt;-7&lt;/font&gt;&lt;/b&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-6&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-5&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-4&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-3&lt;/font&gt;&lt;br /&gt;
+	
+	Cn&lt;font style=&quot;font-size:10px&quot;&gt;-12&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-13&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-10&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-9&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-8&lt;/font&gt;-
+		&lt;b&gt;Cn&lt;font style=&quot;font-size:10px&quot;&gt;-7&lt;/font&gt;&lt;/b&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-6&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-5&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-4&lt;/font&gt;&lt;br /&gt;
+	
+	Cn&lt;font style=&quot;font-size:10px&quot;&gt;-13&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-12&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-11&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-10&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-9&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-8&lt;/font&gt;-
+		&lt;b&gt;Cn&lt;font style=&quot;font-size:10px&quot;&gt;-7&lt;/font&gt;&lt;/b&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-6&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-5&lt;/font&gt;&lt;br /&gt;
+	
+	Cn&lt;font style=&quot;font-size:10px&quot;&gt;-14&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-13&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-12&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-11&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-10&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-9&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-8&lt;/font&gt;-
+		&lt;b&gt;Cn&lt;font style=&quot;font-size:10px&quot;&gt;-7&lt;/font&gt;&lt;/b&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-6&lt;/font&gt;&lt;br /&gt;
+		
+	Cn&lt;font style=&quot;font-size:10px&quot;&gt;-15&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-14&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-13&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-12&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-11&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-10&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-9&lt;/font&gt;-
+		Cn&lt;font style=&quot;font-size:10px&quot;&gt;-8&lt;/font&gt;-
+		&lt;b&gt;Cn&lt;font style=&quot;font-size:10px&quot;&gt;-7&lt;/font&gt;&lt;/b&gt;&lt;br /&gt;
+
+&lt;/p&gt;
+
+&lt;h4&gt;From C9 to Cn&lt;font style=&quot;font-size:10px&quot;&gt;-8&lt;/font&gt;&lt;/h4&gt;
+&lt;div align=&quot;justify&quot;&gt; The mutation concerns &lt;u&gt;&lt;b&gt;nine&lt;/b&gt;&lt;/u&gt; 9-mer at each codon.&lt;/div&gt;
+&lt;div style=&quot;margin-left: 30px&quot;&gt;• &lt;b&gt;Example at C9&lt;/b&gt;&lt;/div&gt;
+&lt;p align=&quot;center&quot;&gt;C1-C2-C3-C4-C5-C6-C7-C8-&lt;b&gt;C9&lt;/b&gt;&lt;br /&gt;
+				  C1-C2-C3-C4-C5-C6-C7-&lt;b&gt;C9&lt;/b&gt;-C10&lt;br /&gt;
+				  C2-C3-C4-C5-C6-C7-&lt;b&gt;C9&lt;/b&gt;-C10-C11&lt;br /&gt;
+				  C3-C4-C5-C6-C7-&lt;b&gt;C9&lt;/b&gt;-C10-C11-C12&lt;br /&gt;
+				  C4-C5-C6-C7-&lt;b&gt;C9&lt;/b&gt;-C10-C11-C12-C13&lt;br /&gt;
+				  C5-C6-C7-&lt;b&gt;C9&lt;/b&gt;-C10-C11-C12-C13-C14&lt;br /&gt;
+				  C6-C7-&lt;b&gt;C9&lt;/b&gt;-C10-C11-C12-C13-C14-C15&lt;br /&gt;
+				  C7-&lt;b&gt;C9&lt;/b&gt;-C10-C11-C12-C13-C14-C15-C16&lt;br /&gt;
+				  &lt;b&gt;C9&lt;/b&gt;-C10-C11-C12-C13-C14-C15-C16-C17&lt;br /&gt;
+			  &lt;/p&gt;
+
+&lt;h3&gt;OK, but how many amino acids can each mutation involve ?&lt;/h3&gt;
+&lt;div align=&quot;justify&quot;&gt;The answer is 20. Each amino acid can be switched by&lt;/div&gt;
+&lt;div align=&quot;center&quot;&gt;A, C, D, E, F, G, H, I, K, L, M, N, P, Q, R, S, T, V, W, or Y&lt;/div&gt;&lt;br /&gt;
+&lt;div align=&quot;justify&quot;&gt; Which makes 20 x 1 9-mer for C1, 20 x 2 9-mers for C2, and so on until C8:&lt;/div&gt;
+&lt;p align=&quot;center&quot;&gt;20x1 + 20x2 + 20x3 + 20x4 + 20x5 + 20x6 + 20x7 + 20x8&lt;/p&gt;&lt;br /&gt;
+&lt;div align=&quot;justify&quot;&gt; Plus the same for Cn&lt;font style=&quot;font-size:10px&quot;&gt;-7&lt;/font&gt; until Cn:&lt;/div&gt;
+&lt;p align=&quot;center&quot;&gt;20x1 + 20x2 + 20x3 + 20x4 + 20x5 + 20x6 + 20x7 + 20x8&lt;/p&gt;&lt;br /&gt;
+&lt;div align=&quot;justify&quot;&gt; Plus 20x9 for C9 until Cn&lt;font style=&quot;font-size:10px&quot;&gt;-8&lt;/font&gt;, which corresponds to n - (2 x 8):&lt;/div&gt;
+&lt;p align=&quot;center&quot;&gt;(n-16) x (20x9)&lt;/p&gt;&lt;br /&gt;
+
+&lt;div align=&quot;justify&quot;&gt; This can be summarized with the following formula, where&lt;br /&gt;
+	&lt;div style=&quot;margin-left: 30px&quot;&gt;• &lt;i&gt;n&lt;/i&gt; is the number of codons,&lt;/div&gt;
+	&lt;div style=&quot;margin-left: 30px&quot;&gt;• &lt;i&gt;x&lt;/i&gt; is the number of possible mutations for 1 codon (20),&lt;/div&gt;
+	&lt;div style=&quot;margin-left: 30px&quot;&gt;• &lt;i&gt;z&lt;/i&gt; is the number of codons with less than 9 9-mers (2x8)&lt;/div&gt;
+&lt;div align=&quot;center&quot;&gt;&lt;img style=&quot;width:50%&quot; src=&quot;/img/make9mer_formula.png&quot; /&gt;&lt;/div&gt;
+&lt;hr /&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+
+
+&lt;h2&gt;&lt;a name=&quot;applic&quot;&gt;APPLICATION&lt;/a&gt;&lt;/h2&gt;
+&lt;h3&gt;TP53&lt;/h3&gt;
+&lt;p align=&quot;justify&quot;&gt; TP53 is a well-known protein that is involved in several processes. It is particularly known as a tumor suppressor. Mutations occuring in TP53 proteins can have crucial impact in tumor development.&lt;br /&gt;
+The wild type protein has 393 codons.&lt;/p&gt;
+&lt;p align=&quot;justify&quot;&gt;&lt;font style=&quot;font-size:12px&quot;&gt;
+	MEEPQSDPSVEPPLSQETFSDLWKLLPENNVLSPLPSQAMDDLMLSPDDIEQWFTEDPGPDEAPRM
+	PEAAPPVAPAPAAPTPAAPAPAPSWPLSSSVPSQKTYQGSYGFRLGFLHSGTAKSVTCTYSPALNK
+	MFCQLAKTCPVQLWVDSTPPPGTRVRAMAIYKQSQHMTEVVRRCPHHERCSDSDGLAPPQHLIRVE
+	GNLRVEYLDDRNTFRHSVVVPYEPPEVGSDCTTIHYNYMCNSSCMGGMNRRPILTIITLEDSSGNL
+	LGRNSFEVRVCACPGRDRRTEEENLRKKGEPHHELPPGSTKRALPNNTSSSPQPKKKPLDGEYFTL
+	QIRGRERFEMFRELNEALELKDAQAGKEPGGSRAHSSHLKSKKGQSTSRHKKLMFKTEGPDSD&lt;/font&gt;&lt;/p&gt;
+
+&lt;p align=&quot;justify&quot;&gt; Let's split it in three parts: C1 to C8 (blue), C9 to Cn&lt;font style=&quot;font-size:10px&quot;&gt;-8&lt;/font&gt; (green), Cn&lt;font style=&quot;font-size:10px&quot;&gt;-7&lt;/font&gt; to Cn (blue).&lt;br /&gt;
+&lt;div align=&quot;center&quot;&gt;&lt;img style=&quot;width:70%&quot; src=&quot;/img/make9mer_TP53seq_sep.png&quot; /&gt;&lt;/div&gt;&lt;br /&gt;
+&lt;div align=&quot;justify&quot;&gt;With the formula above, we will generate &lt;b&gt;69,300&lt;/b&gt; 9-mers.&lt;/div&gt;
+&lt;div align=&quot;center&quot;&gt;2x(1x20 + 2x20 + 3x20 + 4x20 + 5x20 + 6x20 + 7x20 + 8x20) + (393-16)x(20x9)&lt;/div&gt;
+&lt;hr /&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+
+&lt;h2&gt;&lt;a name=&quot;script&quot;&gt;SCRIPTING THIS...&lt;/a&gt;&lt;/h2&gt;
+
+&lt;h3&gt;Protein sequence&lt;/h3&gt;
+Let's call the protein sequence &lt;i&gt;protseq&lt;/i&gt;.&lt;br /&gt;
+It has &lt;i&gt;n&lt;/i&gt; codon.&lt;br /&gt;
+It will be written &lt;i&gt;protseq[1:n]&lt;/i&gt;.&lt;br /&gt;
+
+&lt;h3&gt;List of amino acids&lt;/h3&gt;
+Let's have the amino acids stored in an object &lt;i&gt;AAseq&lt;/i&gt;.&lt;br /&gt;
+It contains &lt;i&gt;x&lt;/i&gt; amino acids.&lt;br /&gt;
+It will be written &lt;i&gt;AAseq[1:x]&lt;/i&gt;.&lt;br /&gt;
+
+&lt;h3&gt;9-mers store&lt;/h3&gt;
+We'll create a store to have all the 9 mers listed.&lt;br /&gt;
+It will be in the form of a list of &lt;i&gt;n&lt;/i&gt; entries.&lt;br /&gt;
+Each entry contains a data frame of &lt;i&gt;x&lt;/i&gt; columns.&lt;br /&gt;
+For entries 1 and &lt;i&gt;n&lt;/i&gt;, the data frame has 1 row.&lt;br /&gt;
+For entries 2 and &lt;i&gt;n&lt;font style=&quot;font-size:10px&quot;&gt;-1&lt;/font&gt;&lt;/i&gt;, the data frame has 2 rows.&lt;br /&gt;
+...&lt;br /&gt;
+For entries 8 and &lt;i&gt;n&lt;font style=&quot;font-size:10px&quot;&gt;-7&lt;/font&gt;&lt;/i&gt;, the data frame has 8 rows.&lt;br /&gt;
+For entries 9 to &lt;i&gt;n&lt;font style=&quot;font-size:10px&quot;&gt;-8&lt;/font&gt;&lt;/i&gt;, the data frame has 9 rows.&lt;br /&gt;
+
+&lt;div align=&quot;center&quot;&gt;&lt;img style=&quot;width:80%&quot; src=&quot;/img/make9mer_script.png&quot; /&gt;&lt;/div&gt;
+
+&lt;h2&gt;&lt;a name=&quot;install&quot;&gt;INSTALL THIS!&lt;/a&gt;&lt;/h2&gt;
+&amp;gt; install.packages(&quot;devtools&quot;)&lt;br /&gt;
+&amp;gt; library(devtools)&lt;br /&gt;
+&amp;gt; install_github(&quot;nahtan/make9mer&quot;)&lt;br /&gt;
+&lt;/p&gt;&lt;/div&gt;&lt;/divp&gt;&lt;/div&gt;
 </content>
 		</entry>
 	
