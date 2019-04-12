@@ -4,13 +4,97 @@
 	<title>Nathan's Blog</title>
 	<link href="http://nahtan.github.io/blog/atom.xml" rel="self"/>
 	<link href="http://nahtan.github.io/blog"/>
-	<updated>2019-04-11T00:49:47+02:00</updated>
+	<updated>2019-04-12T13:47:41+02:00</updated>
 	<id>http://nahtan.github.io/blog</id>
 	<author>
 		<name>Nathan Lemonnier</name>
 		<email>nathanael.lemonnier@gmail.com</email>
 	</author>
 
+	
+		<entry>
+			<title>ontoNW – Build gene-ontology relationship static and dynamic network.</title>
+			<link href="http://nahtan.github.io/blog/2019/04/12/ontoNW"/>
+			<updated>2019-04-12T00:00:00+02:00</updated>
+			<id>http://nahtan.github.io/blog/2019/04/12/ontoNW</id>
+			<content type="html">&lt;hr /&gt;
+
+&lt;p&gt;&lt;b&gt;&lt;a href=&quot;#rationale&quot;&gt;Rationale&lt;/a&gt;&lt;/b&gt;&lt;br /&gt;
+&lt;b&gt;&lt;a href=&quot;#approach&quot;&gt;Approach&lt;/a&gt;&lt;/b&gt;&lt;br /&gt;
+&lt;b&gt;&lt;a href=&quot;#applic&quot;&gt;Application&lt;/a&gt;&lt;/b&gt;&lt;br /&gt;
+&lt;b&gt;&lt;a href=&quot;#install&quot;&gt;Scripting this!&lt;/a&gt;&lt;/b&gt;&lt;br /&gt;
+&lt;b&gt;&lt;a href=&quot;#install&quot;&gt;Install this!&lt;/a&gt;&lt;/b&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2&gt;&lt;a name=&quot;rationale&quot;&gt;RATIONALE&lt;/a&gt;&lt;/h2&gt;
+&lt;p align=&quot;justify&quot;&gt;Ontology of a list of genes can lead to several hundreds of terms. Their investigation is then complex and tricky. Reducing complexity of ontology results is necessary.
+	&lt;div align=&quot;center&quot;&gt;&lt;img style=&quot;width:80%&quot; src=&quot;/img/gocomplex.png&quot; /&gt;&lt;/div&gt;
+Network visualisation is a quick and trendy way to visualize ontology clusters and to which genes they are connected to.&lt;br /&gt;
+OntoNW provides both static and dynamic networks from results of fonctional enrichment (e.g. Gene Ontology, Disease Ontology, KEGG, REACTOME...). They are exportable as pdf or html, respectively.&lt;br /&gt;
+&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2&gt;&lt;a name=&quot;approach&quot;&gt;APPROACH&lt;/a&gt;&lt;/h2&gt;
+&lt;p align=&quot;justify&quot;&gt; The idea is to 
+	&lt;ol&gt;
+		&lt;li&gt;Create a node table from the ontology results&lt;/li&gt;
+		&lt;li&gt;Create an edge table from the ontology results&lt;/li&gt;
+		&lt;li&gt;Build a static network (&lt;i&gt;igraph&lt;/i&gt;)&lt;/li&gt;
+		&lt;li&gt;Build a dynamic network (&lt;i&gt;visNetwork&lt;/i&gt;)&lt;/li&gt;
+	&lt;/ol&gt;				
+&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2&gt;&lt;a name=&quot;applic&quot;&gt;APPLICATION&lt;/a&gt;&lt;/h2&gt;
+&lt;p align=&quot;justify&quot;&gt;Let's use a simple set of 6 genes. Disease ontology was performed and retrieved 41 terms. Reading the full list of terms takes time.&lt;br /&gt;
+We'll first create a node table, including genes and terms, and specify their type (&lt;i&gt;gene&lt;/i&gt;,&lt;i&gt;do&lt;/i&gt;). The weight of the nodes can be their degree.&lt;br /&gt;
+We'll then create the edges table, specifying which gene is connected to which term, and which term is connected to which gene. We do not need the edges to be directed. The weight of the edges can be the p-value of the ontology term.&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;The static network is built with &lt;a href=&quot;https://igraph.org/&quot;&gt;igraph&lt;/a&gt; R package.&lt;br /&gt;
+The dynamic network is built with &lt;a href=&quot;https://datastorm-open.github.io/visNetwork/&quot;&gt;visNetwork&lt;/a&gt; R package.&lt;br /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;em&gt;Static network&lt;/em&gt;&lt;/p&gt;
+&lt;div align=&quot;left&quot;&gt;&lt;img style=&quot;width:80%&quot; src=&quot;/img/StaticNetwork_reingold_tilford.png&quot; /&gt;&lt;/div&gt;
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;em&gt;Dynamic network&lt;/em&gt;&lt;/p&gt;
+&lt;iframe src=&quot;/img/DynamicNetwork.html&quot; height=&quot;600&quot; width=&quot;600&quot; style=&quot;border:none&quot;&gt;&lt;/iframe&gt;
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2&gt;&lt;a name=&quot;install&quot;&gt;SCRIPTING THIS...&lt;/a&gt;&lt;/h2&gt;
+&lt;p align=&quot;justify&quot;&gt;
+&lt;div align=&quot;left&quot;&gt;&lt;img style=&quot;width:80%&quot; src=&quot;/img/ontoNWworkflow.png&quot; /&gt;&lt;/div&gt;	
+&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2&gt;&lt;a name=&quot;install&quot;&gt;INSTALL THIS!&lt;/a&gt;&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;install.packages(“devtools”)&lt;br /&gt;
+library(devtools)&lt;br /&gt;
+install_github(“nahtan/ontoNW”)&lt;br /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+</content>
+		</entry>
 	
 		<entry>
 			<title>make9mer – Generate 9-mer from protein sequence</title>
